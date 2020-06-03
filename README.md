@@ -1,27 +1,35 @@
-# Commands
-Generate crypto materials and channel artifacts
+# Get Started
+
+- Remove all existing docker images, containers, or volumes to make sure there are no conflicting images. Use the ```-f``` tag if any of the following commands fail.
 ```bash
-cryptogen generate --config=./crypto-config.yaml
-
-configtxgen -profile SupplyChainOrdererGenesis -channelID syschannel -outputBlock channel-artifacts/genesis.block
-
-configtxgen -profile SupplyChainChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID scchannel
-
-configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artifacts/FarmInspectorMSPanchors.tx -channelID scchannel -asOrg FarmInspectorMSP
-
-configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artifacts/HarvesterMSPanchors.tx -channelID scchannel -asOrg HarvesterMSP
-
-configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artifacts/ExporterMSPanchors.tx -channelID scchannel -asOrg ExporterMSP
-
-configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artifacts/ImporterMSPanchors.tx -channelID scchannel -asOrg ImporterMSP
-
-configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artifacts/ProcessorMSPanchors.tx -channelID scchannel -asOrg ProcessorMSP
+docker rm $(docker ps -aq)
+docker rmi $(docker images -aq)
+docker volumes rm $(docker volume ls)
+```
+- Execute the following command to download samples, binaries, and docker images.
+```bash
+curl -sSL https://bit.ly/2ysbOFE | bash -s -- 1.4.7 1.4.7 0.4.20
+```
+- To generate crypto certs and channel artifacts execute the generate script in the terminal. 
+```bash
+./generate.sh
 ```
 
+- Once the relevant files have been generated bring up the network using docker compose 
+```bash
+docker-compose up
+```
+
+- With the network up and running, open  a new terminal window and execute the cli-script
+```bash
+./cli-script.sh
+```
 
 # Network Design Details
 
-<u>Channel Name</u> : scchannel
+<u>Channel</u> : scchannel
+
+<u>Orderer Channel</u> : syschannel
 
 <u>Domain</u> : *.supplychain.com
 
@@ -42,4 +50,3 @@ configtxgen -profile SupplyChainChannel -outputAnchorPeersUpdate ./channel-artif
 <u>Importer</u> : Importers imports the coffee from coffee suppliers and updates quantity, ship name, ship number , transporters information, warehouse name, warehouse address and the importer's address.
 
 <u>Processor</u> : Processors are the organizations who processes raw coffee beans by roasting them on particular temperature and humidity and makes it ready for packaging and to sale into markets. Processor adds the information like quantity, temperature , roasting duration , internal batch number , packaging date time, processor name and processor address.
-

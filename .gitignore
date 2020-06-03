@@ -1,4 +1,4 @@
-bin/
 crypto-config/
 channel-artifacts/
 state/
+chaincode/github.com/
