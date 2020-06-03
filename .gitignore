@@ -1,1 +1,4 @@
 bin/
+crypto-config/
+channel-artifacts/
+state/
