@@ -1,5 +1,6 @@
 # Get Started
 
+- Install prerequisites as mentioned on the hyperledger website
 - Remove all existing docker images, containers, or volumes to make sure there are no conflicting images. Use the ```-f``` tag if any of the following commands fail.
 ```bash
 docker rm $(docker ps -aq)
@@ -10,6 +11,13 @@ docker volumes rm $(docker volume ls)
 ```bash
 curl -sSL https://bit.ly/2ysbOFE | bash -s -- 1.4.7 1.4.7 0.4.20
 ```
+- Get the right version of go modules for writing chainode using the following commands. Create new folders where needed
+```bash
+cd $GOPATH/src/github.com/hyperledger
+git clone --single-branch --branch release-1.4 https://github.com/hyperledger/fabric.git fabric
+```
+
+# Work with the blockhain
 - To generate crypto certs and channel artifacts execute the generate script in the terminal. 
 ```bash
 ./generate.sh
