@@ -33,6 +33,21 @@ docker-compose up
 ./cli-script.sh
 ```
 
+- Copy all Go dependencies using the mod vendor
+```bash
+cd chaincode/supplycc
+go get github.com/hyperledger/fabric/core/chaincode/shim@v1.4
+go get github.com/hyperledger/fabric/protos/peer@v1.4
+go mod init chaincode
+go mod tidy
+go mod vendor
+```
+
+- To install and instantiate chaincode, execute the ccsetup script
+```bash
+./ccsetup.sh
+```
+
 # Network Design Details
 
 <u>Channel</u> : scchannel

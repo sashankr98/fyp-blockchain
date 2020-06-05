@@ -18,12 +18,28 @@ func (c *SupplyChainContract) Init(stub shim.ChaincodeStubInterface) pb.Response
 
 // Invoke is called when data needs to be written to the blockchain
 func (c *SupplyChainContract) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
-	return shim.Success(nil)
+	function, args := stub.GetFunctionAndParameters()
+
+	switch function {
+	case "storeTestBlock":
+		return storeTestBlock(stub)
+	case "updateTestBlock":
+		return updateTestBlock(stub, args)
+	default:
+		return shim.Error("Invoke function does not exist")
+	}
 }
 
 // Query is called to read data from the blockchain
 func (c *SupplyChainContract) Query(stub shim.ChaincodeStubInterface) pb.Response {
-	return shim.Success(nil)
+	function, args := stub.GetFunctionAndParameters()
+
+	switch function {
+	case "queryTestBlock":
+		return queryTestBlock(stub, args)
+	default:
+		return shim.Error("Query function does not exist")
+	}
 }
 
 // The main function is only relevant in unit test mode. Only included here for completeness.
