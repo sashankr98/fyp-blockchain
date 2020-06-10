@@ -176,6 +176,7 @@ docker exec \
     -b scchannel.block
 set +x
 
+sleep 5
 #########################
 ## Assigning Anchor peers
 #########################

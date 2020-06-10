@@ -25,20 +25,10 @@ func (c *SupplyChainContract) Invoke(stub shim.ChaincodeStubInterface) pb.Respon
 		return storeTestBlock(stub)
 	case "updateTestBlock":
 		return updateTestBlock(stub, args)
-	default:
-		return shim.Error("Invoke function does not exist")
-	}
-}
-
-// Query is called to read data from the blockchain
-func (c *SupplyChainContract) Query(stub shim.ChaincodeStubInterface) pb.Response {
-	function, args := stub.GetFunctionAndParameters()
-
-	switch function {
 	case "queryTestBlock":
 		return queryTestBlock(stub, args)
 	default:
-		return shim.Error("Query function does not exist")
+		return shim.Error("Function does not exist")
 	}
 }
 

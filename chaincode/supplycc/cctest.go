@@ -105,34 +105,33 @@ func queryTestBlock(stub shim.ChaincodeStubInterface, args []string) pb.Response
 		return shim.Error(err.Error())
 	}
 
-	switch stage {
-	default:
-		return shim.Error("Error while querying the blockchain")
-	case CultivationStage:
-		item := CultivationData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	case FarmInspectorStage:
-		item := FarmInspectorData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	case HarvesterStage:
-		item := HarvesterData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	case ExporterStage:
-		item := ExporterData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	case ImporterStage:
-		item := ImporterData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	case ProcessorStage:
-		item := ProcessorData{}
-		json.Unmarshal(itemAsBytes, &item)
-		break
-	}
-
-	return shim.Success(nil)
+	return shim.Success(itemAsBytes)
+	// switch stage {
+	// default:
+	// 	return shim.Error("Error while querying the blockchain")
+	// case CultivationStage:
+	// 	item := CultivationData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// case FarmInspectorStage:
+	// 	item := FarmInspectorData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// case HarvesterStage:
+	// 	item := HarvesterData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// case ExporterStage:
+	// 	item := ExporterData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// case ImporterStage:
+	// 	item := ImporterData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// case ProcessorStage:
+	// 	item := ProcessorData{}
+	// 	json.Unmarshal(itemAsBytes, &item)
+	// 	return shim.Success(itemAsBytes)
+	// }
 }

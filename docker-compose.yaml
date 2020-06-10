@@ -36,6 +36,18 @@ services:
     networks:
       - supplychain.com
 
+  peer0-farminspector-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer0-farminspector-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 5984:5984
+    networks:
+      - supplychain.com
+
   peer0.farminspector.supplychain.com:
     image: hyperledger/fabric-peer:1.4.7
     container_name: peer0.farminspector.supplychain.com
@@ -58,6 +70,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0-farminspector-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/farminspector.supplychain.com/peers/peer0.farminspector.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -68,6 +84,19 @@ services:
       - 7051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer0-farminspector-couchdb
+    networks:
+      - supplychain.com
+
+  peer1-farminspector-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer1-farminspector-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 6984:5984
     networks:
       - supplychain.com
 
@@ -93,6 +122,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-farminspector-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/farminspector.supplychain.com/peers/peer1.farminspector.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -103,6 +136,19 @@ services:
       - 8051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer1-farminspector-couchdb
+    networks:
+      - supplychain.com
+
+  peer0-harvester-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer0-harvester-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 7984:5984
     networks:
       - supplychain.com
 
@@ -128,6 +174,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0-harvester-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/harvester.supplychain.com/peers/peer0.harvester.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -138,6 +188,19 @@ services:
       - 9051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer0-harvester-couchdb
+    networks:
+      - supplychain.com
+
+  peer1-harvester-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer1-harvester-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 8984:5984
     networks:
       - supplychain.com
 
@@ -163,6 +226,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-harvester-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/harvester.supplychain.com/peers/peer1.harvester.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -173,6 +240,19 @@ services:
       - 10051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer1-harvester-couchdb
+    networks:
+      - supplychain.com
+
+  peer0-exporter-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer0-exporter-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 9984:5984
     networks:
       - supplychain.com
 
@@ -198,6 +278,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0-exporter-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/exporter.supplychain.com/peers/peer0.exporter.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -208,6 +292,19 @@ services:
       - 11051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer0-exporter-couchdb
+    networks:
+      - supplychain.com
+
+  peer1-exporter-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer1-exporter-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 10984:5984
     networks:
       - supplychain.com
 
@@ -233,6 +330,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-exporter-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/exporter.supplychain.com/peers/peer1.exporter.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -243,6 +344,19 @@ services:
       - 12051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer1-exporter-couchdb
+    networks:
+      - supplychain.com
+
+  peer0-importer-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer0-importer-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 11984:5984
     networks:
       - supplychain.com
 
@@ -268,6 +382,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0-importer-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/importer.supplychain.com/peers/peer0.importer.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -278,6 +396,19 @@ services:
       - 13051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer0-importer-couchdb
+    networks:
+      - supplychain.com
+
+  peer1-importer-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer1-importer-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 12984:5984
     networks:
       - supplychain.com
 
@@ -303,6 +434,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-importer-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/importer.supplychain.com/peers/peer1.importer.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -313,6 +448,19 @@ services:
       - 14051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer1-importer-couchdb
+    networks:
+      - supplychain.com
+
+  peer0-processor-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer0-processor-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 13984:5984
     networks:
       - supplychain.com
 
@@ -338,6 +486,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer0-processor-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/processor.supplychain.com/peers/peer0.processor.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -348,6 +500,19 @@ services:
       - 15051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer0-processor-couchdb
+    networks:
+      - supplychain.com
+
+  peer1-processor-couchdb:
+    image: hyperledger/fabric-couchdb
+    container_name: peer1-processor-couchdb
+    restart: always
+    environment:
+      - COUCHDB_USER=fyptest
+      - COUCHDB_PASSWORD=12345
+    ports:
+      - 14984:5984
     networks:
       - supplychain.com
 
@@ -373,6 +538,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-processor-couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=fyptest
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=12345
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/processor.supplychain.com/peers/peer1.processor.supplychain.com/msp:/etc/hyperledger/fabric/msp
@@ -383,6 +552,7 @@ services:
       - 16051:7051
     depends_on:
       - orderer.supplychain.com
+      - peer1-processor-couchdb
     networks:
       - supplychain.com
 
@@ -423,116 +593,3 @@ services:
     command: sleep infinity
     networks:
       - supplychain.com
-
-  # cli-peer0.org1.supplychain.com:
-  #   container_name: cli-peer0.org1
-  #   image: hyperledger/fabric-tools:1.4.7
-  #   restart: always
-  #   environment:
-  #     - GOPATH=/opt/gopath
-  #     - CORE_PEER_ADDRESSAUTODETECT=true
-  #     - CORE_PEER_ID=cli-peer0.org1
-  #     - CORE_PEER_ADDRESS=peer0.org1.supplychain.com:7051
-  #     - CORE_PEER_LOCALMSPID=Org1MSP
-  #     - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp/users/Admin@org1.supplychain.com/msp
-  #     - CORE_PEER_TLS_ENABLED=true
-  #     - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-  #     - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-  #     - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-  #   working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-  #   volumes:
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/orderer
-  #     - ./chaincode:/opt/gopath/src/
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/channels
-  #     - ./crypto-config/peerOrganizations/org1.supplychain.com:/etc/hyperledger/fabric/msp
-  #     - ./crypto-config/peerOrganizations/org1.supplychain.com/peers/peer0.org1.supplychain.com/tls:/etc/hyperledger/fabric/tls
-  #     - ./crypto-config/ordererOrganizations/supplychain.com:/etc/hyperledger/orderers
-  #   depends_on:
-  #     - peer0.org1.supplychain.com
-  #   command: sleep infinity
-  #   networks:
-  #     - supplychain.com
-  # cli-peer1.org1.supplychain.com:
-  #   container_name: cli-peer1.org1
-  #   image: hyperledger/fabric-tools:1.4.7
-  #   restart: always
-  #   environment:
-  #     - GOPATH=/opt/gopath
-  #     - CORE_PEER_ADDRESSAUTODETECT=true
-  #     - CORE_PEER_ID=cli-peer1.org1
-  #     - CORE_PEER_ADDRESS=peer1.org1.supplychain.com:8051
-  #     - CORE_PEER_LOCALMSPID=Org1MSP
-  #     - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp/users/Admin@org1.supplychain.com/msp
-  #     - CORE_PEER_TLS_ENABLED=true
-  #     - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-  #     - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-  #     - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-  #   working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-  #   volumes:
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/orderer
-  #     - ./chaincode:/opt/gopath/src/
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/channels
-  #     - ./crypto-config/peerOrganizations/org1.supplychain.com:/etc/hyperledger/fabric/msp
-  #     - ./crypto-config/peerOrganizations/org1.supplychain.com/peers/peer1.org1.supplychain.com/tls:/etc/hyperledger/fabric/tls
-  #     - ./crypto-config/ordererOrganizations/supplychain.com:/etc/hyperledger/orderers
-  #   depends_on:
-  #     - peer1.org1.supplychain.com
-  #   command: sleep infinity
-  #   networks:
-  #     - supplychain.com
-  # cli-peer0.org2.supplychain.com:
-  #   container_name: cli-peer0.org2
-  #   image: hyperledger/fabric-tools:1.4.7
-  #   restart: always
-  #   environment:
-  #     - GOPATH=/opt/gopath
-  #     - CORE_PEER_ADDRESSAUTODETECT=true
-  #     - CORE_PEER_ID=cli-peer0.org2
-  #     - CORE_PEER_ADDRESS=peer0.org2.supplychain.com:9051
-  #     - CORE_PEER_LOCALMSPID=Org2MSP
-  #     - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp/users/Admin@org2.supplychain.com/msp
-  #     - CORE_PEER_TLS_ENABLED=true
-  #     - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-  #     - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-  #     - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-  #   working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-  #   volumes:
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/orderer
-  #     - ./chaincode:/opt/gopath/src/
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/channels
-  #     - ./crypto-config/peerOrganizations/org2.supplychain.com:/etc/hyperledger/fabric/msp
-  #     - ./crypto-config/peerOrganizations/org2.supplychain.com/peers/peer0.org2.supplychain.com/tls:/etc/hyperledger/fabric/tls
-  #     - ./crypto-config/ordererOrganizations/supplychain.com:/etc/hyperledger/orderers
-  #   depends_on:
-  #     - peer0.org2.supplychain.com
-  #   command: sleep infinity
-  #   networks:
-  #     - supplychain.com
-  # cli-peer1.org2.supplychain.com:
-  #   container_name: cli-peer1.org2
-  #   image: hyperledger/fabric-tools:1.4.7
-  #   restart: always
-  #   environment:
-  #     - GOPATH=/opt/gopath
-  #     - CORE_PEER_ADDRESSAUTODETECT=true
-  #     - CORE_PEER_ID=cli-peer1.org2
-  #     - CORE_PEER_ADDRESS=peer1.org2.supplychain.com:10051
-  #     - CORE_PEER_LOCALMSPID=Org2MSP
-  #     - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp/users/Admin@org2.supplychain.com/msp
-  #     - CORE_PEER_TLS_ENABLED=true
-  #     - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-  #     - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-  #     - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-  #   working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-  #   volumes:
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/orderer
-  #     - ./chaincode:/opt/gopath/src/
-  #     - ./channel-artifacts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/channels
-  #     - ./crypto-config/peerOrganizations/org2.supplychain.com:/etc/hyperledger/fabric/msp
-  #     - ./crypto-config/peerOrganizations/org2.supplychain.com/peers/peer1.org2.supplychain.com/tls:/etc/hyperledger/fabric/tls
-  #     - ./crypto-config/ordererOrganizations/supplychain.com:/etc/hyperledger/orderers
-  #   depends_on:
-  #     - peer1.org2.supplychain.com
-  #   command: sleep infinity
-  #   networks:
-  #     - supplychain.com

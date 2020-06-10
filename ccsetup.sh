@@ -204,14 +204,3 @@ cli peer chaincode instantiate \
     -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH}
 set +x
 
-# echo
-# echo "invoking store"
-# set -x
-# docker exec \
-# cli peer chaincode invoke \
-#     -C scchannel \
-#     -n supplycc \
-#     -c '{"Args":["storeTestBlock","{}"]}' \
-#     -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH}
-# set +x
-
