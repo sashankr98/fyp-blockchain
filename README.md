@@ -1,6 +1,6 @@
 # Get Started
 
-- Install prerequisites as mentioned on the hyperledger website
+- Install prerequisites as mentioned in the [hyperledger docs](https://hyperledger-fabric.readthedocs.io/en/release-1.4/prereqs.html)
 - Remove all existing docker images, containers, or volumes to make sure there are no conflicting images. Use the ```-f``` tag if any of the following commands fail.
 ```bash
 docker rm $(docker ps -aq)
