@@ -4,16 +4,25 @@ import (
 	"time"
 )
 
-// string constants to assign stages
+// string constants for utility purposes
 const (
+	// String constants defining the stages
 	CultivationStage   string = "cultivation"
 	FarmInspectorStage string = "farm-inspector"
 	HarvesterStage     string = "harvester"
 	ExporterStage      string = "exporter"
 	ImporterStage      string = "importer"
 	ProcessorStage     string = "processor"
-	CompletedStage     string = "completed"
+	// BatchData object type
+	BatchDetails string = "batch-details"
 )
+
+// BatchData - Structure to store batchIDs and stages for easy querying
+type BatchData struct {
+	ObjectType string `json:"object-type"`
+	BatchID    string `json:"id"`
+	Stage      string `json:"stage"`
+}
 
 // CultivationData - Cultivation block structure
 type CultivationData struct {
@@ -82,10 +91,10 @@ type ProcessorData struct {
 
 // BatchHistory - structure to consolidate all stages of a single batch
 type BatchHistory struct {
-	cultivationData   CultivationData
-	farmInspectorData FarmInspectorData
-	harvesterData     HarvesterData
-	exporterData      ExporterData
-	importerData      ImporterData
-	processorData     ProcessorData
+	CultivationData   CultivationData
+	FarmInspectorData FarmInspectorData
+	HarvesterData     HarvesterData
+	ExporterData      ExporterData
+	ImporterData      ImporterData
+	ProcessorData     ProcessorData
 }

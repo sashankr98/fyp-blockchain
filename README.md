@@ -48,6 +48,39 @@ go mod vendor
 ./ccsetup.sh
 ```
 
+- Use the ccupdate script to update chaincode. Replace 1 with the appropriate version number
+```bash
+./ccupdate.sh 1
+```
+
+- Test the chaincode using the following commands. A test id of ```1dBUHnZEIdgD33ZAlAjcI6jWaU6``` is mentioned here. Replace it with the appropriate batchId value
+```bash
+# Create a batch
+docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testCreate","{}"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+
+# Update a batch (Only works to add Farm Inspector stage)
+docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testUpdate","1dBUHnZEIdgD33ZAlAjcI6jWaU6"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+
+# Query history of single batch
+docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatch","1dBUHnZEIdgD33ZAlAjcI6jWaU6"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+
+#Query list of all batches
+docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatchList","{}"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+```
+
+# Utilities
+- When the network is up, CouchDB UI is available on http://localhost:5984/_utils/
+
+- To view metrics monitered by Prometheus (on http://localhost:9090/) open a new terminal dialog when the network is up and run the following command. Keep in mind to use the absolute path to the ```prometheus.yml``` file. The link will not have any results if visited before bringing up the prometheus container.
+```bash
+docker run -d --name prometheus-server \
+-p 9090:9090
+--restart always
+-v /absolute/path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
+--network network_supplychain.com \
+prom/prometheus
+``` 
+
 # Network Design Details
 
 <u>Channel</u> : scchannel

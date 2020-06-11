@@ -4,3 +4,4 @@ state/
 chaincode/github.com/
 chaincode/supplycc/vendor/
 chaincode/supplycc/go.sum
+prometheus.sh

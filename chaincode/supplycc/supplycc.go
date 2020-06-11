@@ -21,14 +21,22 @@ func (c *SupplyChainContract) Invoke(stub shim.ChaincodeStubInterface) pb.Respon
 	function, args := stub.GetFunctionAndParameters()
 
 	switch function {
-	case "storeTestBlock":
-		return storeTestBlock(stub)
-	case "updateTestBlock":
-		return updateTestBlock(stub, args)
-	case "queryTestBlock":
-		return queryTestBlock(stub, args)
+	case "createBatch":
+		return createBatch(stub, args)
+	case "updateBatch":
+		return updateBatch(stub, args)
+	case "queryBatch":
+		return queryBatch(stub, args)
+	case "queryBatchList":
+		return queryBatchList(stub)
+
+	// Testing methods
+	case "testCreate":
+		return testCreate(stub)
+	case "testUpdate":
+		return testUpdate(stub, args)
 	default:
-		return shim.Error("Function does not exist")
+		return shim.Error(function + " function does not exist")
 	}
 }
 
