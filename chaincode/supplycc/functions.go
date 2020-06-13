@@ -5,20 +5,21 @@ import (
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"github.com/segmentio/ksuid"
 )
 
 /* createBatch - function to create a batch that starts off the supply chain
 Expects two arguments:
-1. New BatchID
-2. Stringified Cultivation details
+1. Stringified Cultivation details
 	eg: "{\"farmer-name\":\"Reliance Farm\",\"farm-address\":\"Nashik, Maharashtra, India\",\"exporter-name\":\"Express Export & Import Service\",\"importer-name\":\"FQ Export & Import Service\"}"
 */
 func createBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	if len(args) != 2 {
+	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments")
 	}
-
+	batchId := ksuid.New().String()
 	var cData CultivationData
+	cData.BatchID = batchId
 	if err := json.Unmarshal([]byte(args[1]), &cData); err != nil {
 		return shim.Error(err.Error())
 	}
@@ -38,7 +39,7 @@ func createBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	cDataAsBytes, _ := json.Marshal(cData)
 	stub.PutState(cKey, cDataAsBytes)
 
-	return shim.Success(cDataAsBytes)
+	return shim.Success([]byte(batchId))
 }
 
 /*
@@ -284,6 +285,7 @@ func getBatchHistory(stub shim.ChaincodeStubInterface, batch BatchData) (BatchHi
 	return batchHistory, nil
 }
 
+// queryBatchList - function to query list of all existing batches
 func queryBatchList(stub shim.ChaincodeStubInterface) pb.Response {
 	queryString := "{\"selector\":{\"object-type\":\"batch-details\"}}"
 	resultsIterator, err := stub.GetQueryResult(queryString)
