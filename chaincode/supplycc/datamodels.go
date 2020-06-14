@@ -1,9 +1,5 @@
 package main
 
-import (
-	"time"
-)
-
 // string constants for utility purposes
 const (
 	// String constants defining the stages
@@ -32,6 +28,7 @@ type CultivationData struct {
 	FarmAddress  string `json:"farm-address"`
 	ExporterName string `json:"exporter-name"`
 	ImporerName  string `json:"importer-name"`
+	Timestamp    string `json:"timestamp"`
 }
 
 // FarmInspectorData - FarmInspector block structure
@@ -41,6 +38,7 @@ type FarmInspectorData struct {
 	SeedType       string `json:"seed-type"`
 	CoffeeFamily   string `json:"coffee-family"`
 	FertilizerUsed string `json:"fertilizer-used"`
+	Timestamp      string `json:"timestamp"`
 }
 
 // HarvesterData - Harvester block structure
@@ -50,43 +48,47 @@ type HarvesterData struct {
 	CropVariety string  `json:"crop-variety"`
 	Temperature float32 `json:"temperature"` // in deg C
 	Humidity    float32 `json:"humidity"`    // in %
+	Timestamp   string  `json:"timestamp"`
 }
 
 // ExporterData - Exporter block structure
 type ExporterData struct {
-	BatchID              string     `json:"id"`
-	Stage                string     `json:"stage"`
-	Quantity             float32    `json:"quantity"` // in kg
-	DestinationAddress   string     `json:"destination-address"`
-	ShipName             string     `json:"ship-name"`
-	ShipNo               string     `json:"ship-no"`
-	DepartureDateTime    *time.Time `json:"departure-date-time"`
-	EstimatedArrivalTime *time.Time `json:"estimated-arrival-time"`
-	ExporterID           int        `json:"exporter-id"`
+	BatchID              string  `json:"id"`
+	Stage                string  `json:"stage"`
+	Quantity             float32 `json:"quantity"` // in kg
+	DestinationAddress   string  `json:"destination-address"`
+	ShipName             string  `json:"ship-name"`
+	ShipNo               string  `json:"ship-no"`
+	DepartureDateTime    string  `json:"departure-date-time"`
+	EstimatedArrivalTime string  `json:"estimated-arrival-time"`
+	ExporterID           int     `json:"exporter-id"`
+	Timestamp            string  `json:"timestamp"`
 }
 
 // ImporterData - Importer block structure
 type ImporterData struct {
-	BatchID          string     `json:"id"`
-	Stage            string     `json:"stage"`
-	ShipName         string     `json:"ship-name"`
-	ShipNo           string     `json:"ship-no"`
-	ArrivalDateTime  *time.Time `json:"arrival-date-time"`
-	TransportInfo    string     `json:"transport-info"`
-	WarehouseName    string     `json:"warehouse-name"`
-	WarehouseAddress string     `json:"warehouse-address"`
-	ImporterID       int        `json:"importer-id"`
+	BatchID          string `json:"id"`
+	Stage            string `json:"stage"`
+	ShipName         string `json:"ship-name"`
+	ShipNo           string `json:"ship-no"`
+	ArrivalDateTime  string `json:"arrival-date-time"`
+	TransportInfo    string `json:"transport-info"`
+	WarehouseName    string `json:"warehouse-name"`
+	WarehouseAddress string `json:"warehouse-address"`
+	ImporterID       int    `json:"importer-id"`
+	Timestamp        string `json:"timestamp"`
 }
 
 // ProcessorData - Processor block structure
 type ProcessorData struct {
-	BatchID          string     `json:"id"`
-	Stage            string     `json:"stage"`
-	Temperature      float32    `json:"temperature"`       // in deg C
-	RoastingDuration int        `json:"roasting-duration"` // in seconds
-	PackageDateTime  *time.Time `json:"package-date-time"`
-	ProcessorName    string     `json:"processor-name"`
-	WarehouseAddress string     `json:"warehouse-address"`
+	BatchID          string  `json:"id"`
+	Stage            string  `json:"stage"`
+	Temperature      float32 `json:"temperature"`       // in deg C
+	RoastingDuration int     `json:"roasting-duration"` // in seconds
+	PackageDateTime  string  `json:"package-date-time"`
+	ProcessorName    string  `json:"processor-name"`
+	WarehouseAddress string  `json:"warehouse-address"`
+	Timestamp        string  `json:"timestamp"`
 }
 
 // BatchHistory - structure to consolidate all stages of a single batch

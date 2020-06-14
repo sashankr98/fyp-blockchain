@@ -2,28 +2,30 @@ package main
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"github.com/segmentio/ksuid"
 )
 
 /* createBatch - function to create a batch that starts off the supply chain
 Expects two arguments:
-1. New BatchID
-2. Stringified Cultivation details
+1. Stringified Cultivation details
 	eg: "{\"farmer-name\":\"Reliance Farm\",\"farm-address\":\"Nashik, Maharashtra, India\",\"exporter-name\":\"Express Export & Import Service\",\"importer-name\":\"FQ Export & Import Service\"}"
 */
 func createBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	if len(args) != 2 {
+	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments")
 	}
 
 	var cData CultivationData
-	if err := json.Unmarshal([]byte(args[1]), &cData); err != nil {
+	cData.BatchID = ksuid.New().String()
+	cData.Timestamp = time.Now().String()
+	if err := json.Unmarshal([]byte(args[0]), &cData); err != nil {
 		return shim.Error(err.Error())
 	}
 
-	cData.BatchID = args[0]
 	cData.Stage = CultivationStage
 
 	batch := BatchData{
@@ -76,6 +78,7 @@ func updateBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		var data FarmInspectorData
 		data.BatchID = batchId
 		data.Stage = nextStage
+		data.Timestamp = time.Now().String()
 		if err := json.Unmarshal([]byte(args[2]), &data); err != nil {
 			return shim.Error(err.Error())
 		}
@@ -98,6 +101,7 @@ func updateBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		var data HarvesterData
 		data.BatchID = batchId
 		data.Stage = nextStage
+		data.Timestamp = time.Now().String()
 		if err := json.Unmarshal([]byte(args[2]), &data); err != nil {
 			return shim.Error(err.Error())
 		}
@@ -120,6 +124,7 @@ func updateBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		var data ExporterData
 		data.BatchID = batchId
 		data.Stage = nextStage
+		data.Timestamp = time.Now().String()
 		if err := json.Unmarshal([]byte(args[2]), &data); err != nil {
 			return shim.Error(err.Error())
 		}
@@ -142,6 +147,7 @@ func updateBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		var data ImporterData
 		data.BatchID = batchId
 		data.Stage = nextStage
+		data.Timestamp = time.Now().String()
 		if err := json.Unmarshal([]byte(args[2]), &data); err != nil {
 			return shim.Error(err.Error())
 		}
@@ -164,6 +170,7 @@ func updateBatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		var data ProcessorData
 		data.BatchID = batchId
 		data.Stage = nextStage
+		data.Timestamp = time.Now().String()
 		if err := json.Unmarshal([]byte(args[2]), &data); err != nil {
 			return shim.Error(err.Error())
 		}
