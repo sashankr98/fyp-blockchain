@@ -3,10 +3,14 @@ package main
 import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"github.com/segmentio/ksuid"
 )
 
 func testCreate(stub shim.ChaincodeStubInterface) pb.Response {
 	var args []string
+	id := ksuid.New().String()
+	args = append(args, id)
+
 	obj := "{\"farmer-name\":\"Reliance Farm\",\"farm-address\":\"Nashik, Maharashtra, India\",\"exporter-name\":\"Express Export & Import Service\",\"importer-name\":\"FQ Export & Import Service\"}"
 	args = append(args, obj)
 
