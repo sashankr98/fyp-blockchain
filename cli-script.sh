@@ -28,7 +28,7 @@ echo "Creating channel"
 docker exec cli \
   peer channel create \
   -c scchannel \
-  -f ./channel-artifacts/channel.tx -o orderer.supplychain.com:7050 \
+  -f ./channel-artifacts/channel.tx -o orderer1.supplychain.com:7050 \
   --tls --cafile=${CAFILE_PATH}
 
 ##############################
@@ -190,7 +190,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${FARMINSPECTOR_TLS_ROOTCERT_FILE} \
   cli \
     peer channel update \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
     -c scchannel \
     -f ./channel-artifacts/FarmInspectorMSPanchors.tx
 set +x
@@ -205,7 +205,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${HARVESTER_TLS_ROOTCERT_FILE} \
   cli \
   peer channel update \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
     -c scchannel \
     -f ./channel-artifacts/HarvesterMSPanchors.tx
 set +x
@@ -220,7 +220,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${EXPORTER_TLS_ROOTCERT_FILE} \
   cli \
   peer channel update \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
     -c scchannel \
     -f ./channel-artifacts/ExporterMSPanchors.tx
 set +x
@@ -235,7 +235,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${IMPORTER_TLS_ROOTCERT_FILE} \
   cli \
   peer channel update \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
     -c scchannel \
     -f ./channel-artifacts/ImporterMSPanchors.tx
 set +x
@@ -250,7 +250,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${PROCESSOR_TLS_ROOTCERT_FILE} \
   cli \
   peer channel update \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH} \
     -c scchannel \
     -f ./channel-artifacts/ProcessorMSPanchors.tx
 set +x

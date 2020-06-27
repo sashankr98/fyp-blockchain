@@ -53,19 +53,19 @@ go mod vendor
 ./ccupdate.sh 1
 ```
 
-- Test the chaincode using the following commands. A test id of ```1dBUHnZEIdgD33ZAlAjcI6jWaU6``` is mentioned here. Replace it with the appropriate batchId value
+- Test the chaincode using the following commands. A test id of is mentioned here. Replace it with the appropriate batchId value
 ```bash
 # Create a batch
-docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testCreate","{}"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testCreate","{}"]}' -o orderer1.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 
 # Update a batch (Only works to add Farm Inspector stage)
-docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testUpdate","1dBUHnZEIdgD33ZAlAjcI6jWaU6"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+docker exec cli peer chaincode invoke -C scchannel -n supplycc -c '{"Args":["testUpdate","1duMYv63c3bjYFqPp47eYqeHZqE"]}' -o orderer1.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 
 # Query history of single batch
-docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatch","1dBUHnZEIdgD33ZAlAjcI6jWaU6"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatch","1duMYv63c3bjYFqPp47eYqeHZqE"]}' -o orderer1.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 
 #Query list of all batches
-docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatchList","{}"]}' -o orderer.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+docker exec cli peer chaincode query -C scchannel -n supplycc -c '{"Args":["queryBatchList","{}"]}' -o orderer1.supplychain.com:7050 --tls --cafile=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 ```
 
 # Utilities

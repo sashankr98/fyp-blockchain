@@ -233,6 +233,12 @@ Application: &ApplicationDefaults
     # Organizations is the list of orgs which are defined as participants on
     # the application side of the network
     Organizations:
+        - *OrdererOrg
+        - *FarmInspector
+        - *Harvester
+        - *Exporter
+        - *Importer
+        - *Processor
 
     # Policies defines the set of policies at this level of the config tree
     # For Application policies, their canonical path is
@@ -261,11 +267,26 @@ Application: &ApplicationDefaults
 Orderer: &OrdererDefaults
 
     # Orderer Type: The orderer implementation to start
-    # Available types are "solo" and "kafka"
-    OrdererType: solo
-
+    # Available types are "solo", "kafka", and "etcdraft"
+    OrdererType: etcdraft
+    EtcdRaft:
+        Consenters:
+            - Host: orderer1.supplychain.com
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer1.supplychain.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer1.supplychain.com/tls/server.crt
+            - Host: orderer2.supplychain.com
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls/server.crt
+            - Host: orderer3.supplychain.com
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls/server.crt
     Addresses:
-        - orderer.supplychain.com:7050
+        - orderer1.supplychain.com:7050
+        - orderer2.supplychain.com:7050
+        - orderer3.supplychain.com:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -294,6 +315,7 @@ Orderer: &OrdererDefaults
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
     Organizations:
+        - *OrdererOrg
 
     # Policies defines the set of policies at this level of the config tree
     # For Orderer policies, their canonical path is
@@ -364,6 +386,10 @@ Profiles:
                 - *OrdererOrg
             Capabilities:
                 <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - <<: *OrdererOrg
         Consortiums:
             SupplyChainConsortium:
                 Organizations:
@@ -372,6 +398,7 @@ Profiles:
                     - *Exporter
                     - *Importer
                     - *Processor
+                    
     SupplyChainChannel:
         Consortium: SupplyChainConsortium
         <<: *ChannelDefaults

@@ -1,5 +1,5 @@
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
-ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
+ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/supplychain.com/orderers/orderer1.supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 
 #FarmInspector Environment Variables
 FARMINSPECTOR_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/farminspector.supplychain.com/users/Admin@farminspector.supplychain.com/msp
@@ -201,6 +201,6 @@ cli peer chaincode instantiate \
     -n supplycc \
     -v ${CC_VERSION_NO} \
     -c '{"Args":[]}' \
-    -o orderer.supplychain.com:7050 --tls --cafile=${CAFILE_PATH}
+    -o orderer1.supplychain.com:7050 --tls --cafile=${CAFILE_PATH}
 set +x
 

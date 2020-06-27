@@ -3,11 +3,9 @@ OrdererOrgs:
     Domain: supplychain.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: orderer
+      - Hostname: orderer1
       - Hostname: orderer2
       - Hostname: orderer3
-      - Hostname: orderer4
-      - Hostname: orderer5
 
 PeerOrgs:
   - Name: FarmInspector
@@ -41,7 +39,7 @@ PeerOrgs:
       Count: 2
     Users:
       Count: 1
-      
+
   - Name: Processor
     Domain: processor.supplychain.com
     EnableNodeOUs: true

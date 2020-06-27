@@ -4,15 +4,15 @@ networks:
   supplychain.com:
 
 services:
-  orderer.supplychain.com:
+  orderer1.supplychain.com:
     image: hyperledger/fabric-orderer:1.4.7
-    container_name: orderer.supplychain.com
+    container_name: orderer1.supplychain.com
     working_dir: /var/hyperledger/orderer
     restart: always
     environment:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISPROFILE=TwoOrgsOrdererGenesis
+      - ORDERER_GENERAL_GENESISPROFILE=SupplyChainOrdererGenesis
       - ORDERER_GENERAL_SYSTEMCHANNEL=syschannel
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/data/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
@@ -27,12 +27,76 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
     volumes:
-      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/tls:/var/hyperledger/orderer/tls
-      - ./state/orderer:/var/hyperledger/production/orderer
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer1.supplychain.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer1.supplychain.com/tls:/var/hyperledger/orderer/tls
+      - ./state/orderer1:/var/hyperledger/production/orderer
       - ./channel-artifacts/:/var/hyperledger/orderer/data/
     ports:
       - 7050:7050
+    networks:
+      - supplychain.com
+
+  orderer2.supplychain.com:
+    image: hyperledger/fabric-orderer:1.4.7
+    container_name: orderer2.supplychain.com
+    working_dir: /var/hyperledger/orderer
+    restart: always
+    environment:
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISPROFILE=SupplyChainOrdererGenesis
+      - ORDERER_GENERAL_SYSTEMCHANNEL=syschannel
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/data/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    volumes:
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls:/var/hyperledger/orderer/tls
+      - ./state/orderer2:/var/hyperledger/production/orderer
+      - ./channel-artifacts/:/var/hyperledger/orderer/data/
+    ports:
+      - 8050:7050
+    networks:
+      - supplychain.com
+
+  orderer3.supplychain.com:
+    image: hyperledger/fabric-orderer:1.4.7
+    container_name: orderer3.supplychain.com
+    working_dir: /var/hyperledger/orderer
+    restart: always
+    environment:
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISPROFILE=SupplyChainOrdererGenesis
+      - ORDERER_GENERAL_SYSTEMCHANNEL=syschannel
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/data/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    volumes:
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/msp:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls:/var/hyperledger/orderer/tls
+      - ./state/orderer3:/var/hyperledger/production/orderer
+      - ./channel-artifacts/:/var/hyperledger/orderer/data/
+    ports:
+      - 9050:7050
     networks:
       - supplychain.com
 
@@ -43,6 +107,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer0-farminspector-couchdb:/opt/couchdb/data
     ports:
       - 5984:5984
     networks:
@@ -85,7 +151,9 @@ services:
     ports:
       - 7051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer0-farminspector-couchdb
     networks:
       - supplychain.com
@@ -97,6 +165,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer1-farminspector-couchdb:/opt/couchdb/data
     ports:
       - 6984:5984
     networks:
@@ -139,7 +209,9 @@ services:
     ports:
       - 8051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer1-farminspector-couchdb
     networks:
       - supplychain.com
@@ -153,6 +225,8 @@ services:
       - COUCHDB_PASSWORD=12345
     ports:
       - 7984:5984
+    volumes:
+      - ./state/peer0-harvester-couchdb:/opt/couchdb/data
     networks:
       - supplychain.com
 
@@ -193,7 +267,9 @@ services:
     ports:
       - 9051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer0-harvester-couchdb
     networks:
       - supplychain.com
@@ -205,6 +281,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer1-harvester-couchdb:/opt/couchdb/data
     ports:
       - 8984:5984
     networks:
@@ -247,7 +325,9 @@ services:
     ports:
       - 10051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer1-harvester-couchdb
     networks:
       - supplychain.com
@@ -259,6 +339,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer0-exporter-couchdb:/opt/couchdb/data
     ports:
       - 9984:5984
     networks:
@@ -301,7 +383,9 @@ services:
     ports:
       - 11051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer0-exporter-couchdb
     networks:
       - supplychain.com
@@ -313,6 +397,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer1-exporter-couchdb:/opt/couchdb/data
     ports:
       - 10984:5984
     networks:
@@ -355,7 +441,9 @@ services:
     ports:
       - 12051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer1-exporter-couchdb
     networks:
       - supplychain.com
@@ -367,6 +455,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer0-importer-couchdb:/opt/couchdb/data
     ports:
       - 11984:5984
     networks:
@@ -409,7 +499,9 @@ services:
     ports:
       - 13051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer0-importer-couchdb
     networks:
       - supplychain.com
@@ -421,6 +513,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer1-importer-couchdb:/opt/couchdb/data
     ports:
       - 12984:5984
     networks:
@@ -463,7 +557,9 @@ services:
     ports:
       - 14051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer1-importer-couchdb
     networks:
       - supplychain.com
@@ -475,6 +571,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer0-processor-couchdb:/opt/couchdb/data
     ports:
       - 13984:5984
     networks:
@@ -517,7 +615,9 @@ services:
     ports:
       - 15051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer0-processor-couchdb
     networks:
       - supplychain.com
@@ -529,6 +629,8 @@ services:
     environment:
       - COUCHDB_USER=fyptest
       - COUCHDB_PASSWORD=12345
+    volumes:
+      - ./state/peer1-processor-couchdb:/opt/couchdb/data
     ports:
       - 14984:5984
     networks:
@@ -571,7 +673,9 @@ services:
     ports:
       - 16051:7051
     depends_on:
-      - orderer.supplychain.com
+      - orderer1.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
       - peer1-processor-couchdb
     networks:
       - supplychain.com
